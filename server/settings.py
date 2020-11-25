@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
-import os
+from os import path
 import os, json
 from django.core.exceptions import ImproperlyConfigured
 
@@ -45,7 +45,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders'
+    'corsheaders',
+    'rest_framework',
+    'chatApp',
 ]
 
 MIDDLEWARE = [
@@ -116,6 +118,14 @@ CORS_ORIGIN_WHITELIST = (
        'http://localhost:8000',    #Django 도메인
 )
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
@@ -135,6 +145,5 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    str(APPS_DIR.path("static")),	# 기존 존재
-    str(ROOT_DIR.path('frontend', 'build', 'static')),	# 추가
+    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),	# 추가
 ]
